@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+.overview {
+    width: 100%;
+    height: 135px;
+    overflow-y: auto;
+}
+
+.overview::-webkit-scrollbar {
+    height: 5px;
+    width: 4px;
+    border: 1px solid #d5d5d5;
+    background: #d5d5d5;
+}
+
+.overview::-webkit-scrollbar-track {
+    --webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.overview::-webkit-scrollbar-thumb {
+    background-color: #9d0191;
+    outline: 1px solid #eee;
+}
