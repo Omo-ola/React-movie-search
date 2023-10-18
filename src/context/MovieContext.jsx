@@ -14,6 +14,11 @@ const apiURL =
 const searchAPI =
   "https://api.themoviedb.org/3/search/movie?&api_key=04c35731a5ee918f014970082a0088b1&query=";
 
+function extractWords(inputString,numChar) {
+  const wordsArray = inputString.split(/\s+/).slice(0, numChar);
+  return wordsArray.join(" ");
+}
+
 const states = {
   isLoading: false,
   content: [],
@@ -71,7 +76,7 @@ function MoviesProvider({ children }) {
   );
 
   return (
-    <MovieContext.Provider value={{ isLoading, content, query, setQuery }}>
+    <MovieContext.Provider value={{ isLoading, content, query, setQuery,extractWords }}>
       {children}
     </MovieContext.Provider>
   );

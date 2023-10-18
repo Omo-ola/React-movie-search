@@ -5,13 +5,13 @@
 
 
 
-.overview {
+/* .overview {
     width: 100%;
     height: 135px;
     overflow-y: auto;
-}
+} */
 
-.overview::-webkit-scrollbar {
+/* .overview::-webkit-scrollbar {
     height: 5px;
     width: 4px;
     border: 1px solid #d5d5d5;
@@ -25,4 +25,4 @@
 .overview::-webkit-scrollbar-thumb {
     background-color: #9d0191;
     outline: 1px solid #eee;
-}
+} */
