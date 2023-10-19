@@ -3,11 +3,24 @@ import { useMovies } from "./context/MovieContext";
 import Spinner from "./Spinner";
 import MovieList from "./MovieList";
 
+const imgPATH = "https://image.tmdb.org/t/p/w1280";
+
 
 
 function Movies() {
-    const { isLoading, content, query, setQuery } = useMovies();
-
+  const {
+    isLoading,
+    content,
+    query,
+    setQuery,
+    dispatch,
+    isOpen,
+    currentMovie,
+  } = useMovies();
+  
+  function handleClose() {
+    dispatch({ type: "movie/close" });
+  }
 
   return (
     <section className="md:flex">
@@ -36,7 +49,7 @@ function Movies() {
           </div>
         </div>
       </aside>
-      <main className="bg-gray-600 md:w-[75%]">
+      <main className="relative bg-gray-600 md:w-[75%]">
         {content.length < 1 ? (
           <div className="w-[70%] m-auto">
             <h1 className="text-xl text-white font-medium py-4">
@@ -57,6 +70,51 @@ function Movies() {
                 ))}
               </section>
             )}
+          </div>
+        )}
+        {isOpen && (
+          <div className="w-[100%] h-[100%] bg-slate-500 fixed inset-0 overflow-auto">
+            <svg
+              className="absolute top-10 right-10 cursor-pointer"
+              xmlns="http://www.w3.org/2000/svg"
+              onClick={handleClose}
+              height="3rem"
+              viewBox="0 0 384 512"
+            >
+              <path d="M376.6 84.5c11.3-13.6 9.5-33.8-4.1-45.1s-33.8-9.5-45.1 4.1L192 206 56.6 43.5C45.3 29.9 25.1 28.1 11.5 39.4S-3.9 70.9 7.4 84.5L150.3 256 7.4 427.5c-11.3 13.6-9.5 33.8 4.1 45.1s33.8 9.5 45.1-4.1L192 306 327.4 468.5c11.3 13.6 31.5 15.4 45.1 4.1s15.4-31.5 4.1-45.1L233.7 256 376.6 84.5z" />
+            </svg>
+
+            <section>
+              <img
+                src={`${imgPATH}/${currentMovie.backdrop_path}`}
+                alt="image backdrop"
+                className="w-[100%] h-[20rem] object-contain my-4"
+              />
+              <p className="text-lg text-center">
+                Age Limits :
+                <span
+                  className={`${
+                    currentMovie.adult ? "bg-red-600" : "bg-green-600"
+                  } py-2 px-3 ml-2 text-sm text-stone-100`}
+                >
+                  {currentMovie.adult ? "Adults" : "No Age limits"}
+                </span>
+              </p>
+              <p className="text-center my-4 px-4">
+                Full Description :
+                <span className="text-lg"> {currentMovie.overview}</span>
+              </p>
+              <p className="text-center text-xl my-4">
+                Released Date :
+                <span className="text-lg"> {currentMovie.release_date}</span>
+              </p>
+
+              <div className="text-center flex justify-center gap-4 text-stone-100 mb-4">
+                <button className="py-2 px-4 bg-red-500 rounded-sm cursor-pointer">
+                  Add to watch List
+                </button>
+              </div>
+            </section>
           </div>
         )}
       </main>

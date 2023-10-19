@@ -3,15 +3,26 @@ import { useMovies } from "./context/MovieContext";
 const imgPATH = "https://image.tmdb.org/t/p/w1280";
 
 function MovieList({ data }) {
-  const { extractWords } = useMovies();
+  const { extractWords, dispatch } = useMovies();
+
+  
 
   if (data.backdrop_path === null) return;
 
 
-  const desc = extractWords(data.overview,30);
-  console.log(desc);
+function handleClick() {
+  dispatch({ type: "current/movie", payload: data });
+  console.log("I am clicked");
+}
+
+
+  const desc = extractWords(data.overview, 30);
+
   return (
-    <article className="grid grid-cols-2 bg-[#eee] my-2 h-auto min-h-[17rem] gap-2 overflow-hidden cursor-pointer">
+    <article
+      className="grid grid-cols-2 bg-[#eee] my-2 h-auto min-h-[17rem] gap-2 overflow-hidden cursor-pointer"
+      onClick={handleClick}
+    >
       <img
         src={`${imgPATH}/${data.backdrop_path}`}
         className="h-[100%] w-[100%] object-cover p-1"
@@ -27,9 +38,7 @@ function MovieList({ data }) {
             {data.vote_average}
           </span>
         </div>
-        <article className="overview text-base font-medium">
-          {desc}
-        </article>
+        <article className="overview text-base font-medium">{desc}</article>
       </div>
     </article>
   );

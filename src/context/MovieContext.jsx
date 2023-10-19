@@ -14,7 +14,7 @@ const apiURL =
 const searchAPI =
   "https://api.themoviedb.org/3/search/movie?&api_key=04c35731a5ee918f014970082a0088b1&query=";
 
-function extractWords(inputString,numChar) {
+function extractWords(inputString, numChar) {
   const wordsArray = inputString.split(/\s+/).slice(0, numChar);
   return wordsArray.join(" ");
 }
@@ -22,6 +22,8 @@ function extractWords(inputString,numChar) {
 const states = {
   isLoading: false,
   content: [],
+  currentMovie: "",
+  isOpen: false,
   error: "",
 };
 function reducer(state, action) {
@@ -30,6 +32,10 @@ function reducer(state, action) {
       return { ...state, isLoading: true };
     case "movies/loaded":
       return { ...state, content: action.payload, isLoading: false };
+    case "current/movie":
+      return { ...state, currentMovie: action.payload, isOpen: true };
+    case "movie/close":
+      return { ...state, isOpen: false, currentMovie: "" };
     case "error":
       return {
         ...state,
@@ -42,7 +48,10 @@ function reducer(state, action) {
 
 function MoviesProvider({ children }) {
   const [query, setQuery] = useState("");
-  const [{ isLoading, content }, dispatch] = useReducer(reducer, states);
+  const [{ isLoading, content, isOpen, currentMovie }, dispatch] = useReducer(
+    reducer,
+    states
+  );
 
   useEffect(function () {
     const getMovies = async (url) => {
@@ -76,7 +85,18 @@ function MoviesProvider({ children }) {
   );
 
   return (
-    <MovieContext.Provider value={{ isLoading, content, query, setQuery,extractWords }}>
+    <MovieContext.Provider
+      value={{
+        isLoading,
+        content,
+        query,
+        setQuery,
+        extractWords,
+        dispatch,
+        isOpen,
+        currentMovie,
+      }}
+    >
       {children}
     </MovieContext.Provider>
   );
